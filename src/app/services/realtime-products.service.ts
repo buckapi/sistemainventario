@@ -11,7 +11,7 @@ export class RealtimeProductsService {
   public products$ = this.productsSubject.asObservable();
 
   constructor() {
-    this.pb = new PocketBase('https://db.buckapi.com:8095');
+    this.pb = new PocketBase('https://db.buckapi.lat:8095');
     
     // Autenticación
     this.pb.collection('users')

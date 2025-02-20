@@ -5,10 +5,10 @@ import PocketBase from 'pocketbase';
 @Injectable({
   providedIn: 'root'
 })
-export class RealtimeEmployeesService {
+export class RealtimeCuentasxcobrarService {
   private pb: PocketBase;
-  private employeesSubject = new BehaviorSubject<any[]>([]);
-  public employees$ = this.employeesSubject.asObservable();
+  private cuentasxcobrarSubject = new BehaviorSubject<any[]>([]);
+  public cuentasxcobrar$ = this.cuentasxcobrarSubject.asObservable();
 
   constructor() {
     this.pb = new PocketBase('https://db.buckapi.lat:8095');
@@ -27,38 +27,38 @@ export class RealtimeEmployeesService {
 
   private subscribeToRealtimeChanges(): void {
     // Obtener todos los registros existentes
-    this.pb.collection('employees').getList(1, 50).then(records => {
-      this.employeesSubject.next(records.items);
+    this.pb.collection('cuentasxcobrar').getList(1, 50).then(records => {
+      this.cuentasxcobrarSubject.next(records.items);
       
       // Suscribirse a los cambios en tiempo real
-      this.pb.collection('employees').subscribe('*', (e) => {
+      this.pb.collection('cuentasxcobrar').subscribe('*', (e) => {
         console.log(e.action, e.record);
         
-        const currentEmployees = this.employeesSubject.value;
-        let updatedEmployees;
+        const currentCuentasxcobrar = this.cuentasxcobrarSubject.value;
+        let updatedCuentasxcobrar; 
 
         switch (e.action) {
           case 'create':
-            updatedEmployees = [...currentEmployees, e.record];
+            updatedCuentasxcobrar = [...currentCuentasxcobrar, e.record];
             break;
           case 'update':
-            updatedEmployees = currentEmployees.map(req => 
+            updatedCuentasxcobrar = currentCuentasxcobrar.map(req => 
               req.id === e.record.id ? e.record : req
             );
             break;
           case 'delete':
-            updatedEmployees = currentEmployees.filter(req => req.id !== e.record.id);
+            updatedCuentasxcobrar = currentCuentasxcobrar.filter(req => req.id !== e.record.id);
             break;
           default:
-            updatedEmployees = currentEmployees;
+            updatedCuentasxcobrar = currentCuentasxcobrar;
         }
 
-        this.employeesSubject.next(updatedEmployees);
+        this.cuentasxcobrarSubject.next(updatedCuentasxcobrar);
       });
     });
   }
 
   public unsubscribeFromRealtimeChanges(): void {
-    this.pb.collection('employees').unsubscribe('*');
+    this.pb.collection('cuentasxcobrar').unsubscribe('*');
   }
 }

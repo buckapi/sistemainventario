@@ -1,13 +1,13 @@
 <router-outlet></router-outlet>
+<router-outlet name='left'></router-outlet>
+<router-outlet name='right'></router-outlet>
+<app-login [hidden]="global.activeRoute!='login'"></app-login>
 <app-sidebar *ngIf="global.activeRoute !== 'register' && global.activeRoute !== 'login'"></app-sidebar>
 <app-top-navbar *ngIf="global.activeRoute !== 'register' && global.activeRoute !== 'login'"></app-top-navbar>
 <app-register [hidden]="global.activeRoute!='register'"></app-register>
-<app-login [hidden]="global.activeRoute!='login'"></app-login>
 <app-home [hidden]="global.activeRoute!='home'"></app-home>
 <app-accounting [hidden]="global.activeRoute!='app-accounting'"></app-accounting>
 <app-employees [hidden]="global.activeRoute!='app-employees'"></app-employees>
 <app-inventory [hidden]="global.activeRoute!='app-inventory'"></app-inventory>
 <app-sales [hidden]="global.activeRoute!='app-sales'"></app-sales>
 <app-settings [hidden]="global.activeRoute!='app-settings'"></app-settings>
-
-

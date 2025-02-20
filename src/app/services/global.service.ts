@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { RealtimeCategoriesService } from './realtime-categories.service';
 import { RealtimeProductsService } from './realtime-products.service';
 import { take } from 'rxjs/operators';
+import { AuthPocketbaseService } from './auth-pocketbase.service';
 
 interface Category {
   id: string;

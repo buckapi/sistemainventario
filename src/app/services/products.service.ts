@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
-  private pb = new PocketBase('https://db.buckapi.com:8095');
+  private pb = new PocketBase('https://db.buckapi.lat:8095');
 
   constructor(
     private http: HttpClient

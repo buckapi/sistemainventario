@@ -5,10 +5,10 @@ import PocketBase from 'pocketbase';
 @Injectable({
   providedIn: 'root'
 })
-export class RealtimeEmployeesService {
+export class RealtimeCuentasxpagarService {
   private pb: PocketBase;
-  private employeesSubject = new BehaviorSubject<any[]>([]);
-  public employees$ = this.employeesSubject.asObservable();
+  private cuentasxpagarSubject = new BehaviorSubject<any[]>([]);
+  public cuentasxpagar$ = this.cuentasxpagarSubject.asObservable();
 
   constructor() {
     this.pb = new PocketBase('https://db.buckapi.lat:8095');
@@ -27,38 +27,38 @@ export class RealtimeEmployeesService {
 
   private subscribeToRealtimeChanges(): void {
     // Obtener todos los registros existentes
-    this.pb.collection('employees').getList(1, 50).then(records => {
-      this.employeesSubject.next(records.items);
+    this.pb.collection('cuentasxpagar').getList(1, 50).then(records => {
+      this.cuentasxpagarSubject.next(records.items);
       
       // Suscribirse a los cambios en tiempo real
-      this.pb.collection('employees').subscribe('*', (e) => {
+      this.pb.collection('cuentasxpagar').subscribe('*', (e) => {
         console.log(e.action, e.record);
         
-        const currentEmployees = this.employeesSubject.value;
-        let updatedEmployees;
+        const currentCuentasxpagar = this.cuentasxpagarSubject.value;
+        let updatedCuentasxpagar;
 
         switch (e.action) {
           case 'create':
-            updatedEmployees = [...currentEmployees, e.record];
+            updatedCuentasxpagar = [...currentCuentasxpagar, e.record];
             break;
           case 'update':
-            updatedEmployees = currentEmployees.map(req => 
+            updatedCuentasxpagar = currentCuentasxpagar.map(req => 
               req.id === e.record.id ? e.record : req
             );
             break;
           case 'delete':
-            updatedEmployees = currentEmployees.filter(req => req.id !== e.record.id);
+            updatedCuentasxpagar = currentCuentasxpagar.filter(req => req.id !== e.record.id);
             break;
           default:
-            updatedEmployees = currentEmployees;
+            updatedCuentasxpagar = currentCuentasxpagar;
         }
 
-        this.employeesSubject.next(updatedEmployees);
+        this.cuentasxpagarSubject.next(updatedCuentasxpagar);
       });
     });
   }
 
   public unsubscribeFromRealtimeChanges(): void {
-    this.pb.collection('employees').unsubscribe('*');
+    this.pb.collection('cuentasxpagar').unsubscribe('*');
   }
 }

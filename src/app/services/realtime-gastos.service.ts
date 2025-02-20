@@ -5,10 +5,10 @@ import PocketBase from 'pocketbase';
 @Injectable({
   providedIn: 'root'
 })
-export class RealtimeEmployeesService {
+export class RealtimeGastosService {
   private pb: PocketBase;
-  private employeesSubject = new BehaviorSubject<any[]>([]);
-  public employees$ = this.employeesSubject.asObservable();
+  private gastosSubject = new BehaviorSubject<any[]>([]);
+  public gastos$ = this.gastosSubject.asObservable();
 
   constructor() {
     this.pb = new PocketBase('https://db.buckapi.lat:8095');
@@ -27,38 +27,38 @@ export class RealtimeEmployeesService {
 
   private subscribeToRealtimeChanges(): void {
     // Obtener todos los registros existentes
-    this.pb.collection('employees').getList(1, 50).then(records => {
-      this.employeesSubject.next(records.items);
+    this.pb.collection('gastos').getList(1, 50).then(records => {
+          this.gastosSubject.next(records.items);
       
       // Suscribirse a los cambios en tiempo real
-      this.pb.collection('employees').subscribe('*', (e) => {
+      this.pb.collection('gastos').subscribe('*', (e) => {
         console.log(e.action, e.record);
         
-        const currentEmployees = this.employeesSubject.value;
-        let updatedEmployees;
+        const currentGastos = this.gastosSubject.value;
+        let updatedGastos;
 
         switch (e.action) {
           case 'create':
-            updatedEmployees = [...currentEmployees, e.record];
+            updatedGastos = [...currentGastos, e.record];
             break;
           case 'update':
-            updatedEmployees = currentEmployees.map(req => 
+            updatedGastos = currentGastos.map(req => 
               req.id === e.record.id ? e.record : req
             );
             break;
           case 'delete':
-            updatedEmployees = currentEmployees.filter(req => req.id !== e.record.id);
+            updatedGastos = currentGastos.filter(req => req.id !== e.record.id);
             break;
           default:
-            updatedEmployees = currentEmployees;
+            updatedGastos = currentGastos;
         }
 
-        this.employeesSubject.next(updatedEmployees);
+        this.gastosSubject.next(updatedGastos);
       });
     });
   }
 
   public unsubscribeFromRealtimeChanges(): void {
-    this.pb.collection('employees').unsubscribe('*');
+    this.pb.collection('gastos').unsubscribe('*');
   }
 }

@@ -11,7 +11,7 @@ export class RealtimeSalesService {
   public sales$ = this.salesSubject.asObservable();
 
   constructor() {
-    this.pb = new PocketBase('https://db.buckapi.com:8095');
+    this.pb = new PocketBase('https://db.buckapi.lat:8095');
     
     // Autenticación
     this.pb.collection('users')
@@ -27,11 +27,11 @@ export class RealtimeSalesService {
 
   private subscribeToRealtimeChanges(): void {
     // Obtener todos los registros existentes
-    this.pb.collection('sales').getList(1, 50).then(records => {    
+    this.pb.collection('ventas').getList(1, 50).then(records => {    
       this.salesSubject.next(records.items);
       
       // Suscribirse a los cambios en tiempo real
-      this.pb.collection('sales').subscribe('*', (e) => {
+      this.pb.collection('ventas').subscribe('*', (e) => {
         console.log(e.action, e.record);
         
         const currentSales = this.salesSubject.value;
@@ -59,6 +59,6 @@ export class RealtimeSalesService {
   }
 
   public unsubscribeFromRealtimeChanges(): void {
-    this.pb.collection('sales').unsubscribe('*');
+    this.pb.collection('ventas').unsubscribe('*');
   }
 }

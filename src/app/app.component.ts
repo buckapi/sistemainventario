@@ -12,6 +12,8 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { AccountingComponent } from './components/accounting/accounting.component';
 import { TopNavbarComponent } from './components/ui/top-navbar/top-navbar.component';
 import { SidebarComponent } from './components/ui/sidebar/sidebar.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +28,9 @@ import { SidebarComponent } from './components/ui/sidebar/sidebar.component';
     SettingsComponent,
     AccountingComponent,
     TopNavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    LoginComponent,
+    RegisterComponent,
 
   ],
 
@@ -39,7 +43,7 @@ export class AppComponent {
 constructor(
   public global: GlobalService,
   public auth:AuthPocketbaseService,
-  public script: ScriptService
+  public script: ScriptService,
 ){
   this.auth.permision();  
   this.script.load(

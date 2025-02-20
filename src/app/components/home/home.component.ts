@@ -1,16 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../../services/global.service';
-import { TopNavbarComponent } from '../ui/top-navbar/top-navbar.component';
 import { AuthPocketbaseService } from '../../services/auth-pocketbase.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { RealtimeProductsService } from '../../services/realtime-products.service';
-import { HttpClient } from '@angular/common/http';
 import { RealtimeEmployeesService } from '../../services/realtime-employees.service';
 import { RealtimeSalesService } from '../../services/realtime-sales.service';
 import { Modal } from 'bootstrap';
-import { SidebarComponent } from '../ui/sidebar/sidebar.component';
+import { Observable } from 'rxjs';
 
 interface WorkInstruction {
     id: string | number; 
@@ -37,8 +35,6 @@ declare var bootstrap: any;
   selector: 'app-home',
   standalone: true,
   imports: [
-    TopNavbarComponent,
-    SidebarComponent,
     CommonModule    
   ],
   templateUrl: './home.component.html',
@@ -62,7 +58,6 @@ ventas: any[] = [];
     public global: GlobalService,
     public auth: AuthPocketbaseService,
     public realtimeProducts: RealtimeProductsService,
-    private http: HttpClient,
     public realtimeEmployees: RealtimeEmployeesService,
     public realtimeSales: RealtimeSalesService
   ){    

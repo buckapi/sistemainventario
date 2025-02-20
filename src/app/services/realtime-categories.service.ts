@@ -11,7 +11,7 @@ export class RealtimeCategoriesService {
   public categories$ = this.categoriesSubject.asObservable();
 
   constructor() {
-    this.pb = new PocketBase('https://db.buckapi.com:8095');
+    this.pb = new PocketBase('https://db.buckapi.lat:8095');
     
     // Autenticación
     this.pb.collection('users')
@@ -27,11 +27,11 @@ export class RealtimeCategoriesService {
 
   private subscribeToRealtimeChanges(): void {
     // Obtener todos los registros existentes
-    this.pb.collection('categories').getList(1, 50).then(records => {
+    this.pb.collection('categorias').getList(1, 50).then(records => {
       this.categoriesSubject.next(records.items);
       
       // Suscribirse a los cambios en tiempo real
-      this.pb.collection('categories').subscribe('*', (e) => {
+      this.pb.collection('categorias').subscribe('*', (e) => {
         console.log(e.action, e.record);
         
         const currentCategories = this.categoriesSubject.value;
@@ -59,6 +59,6 @@ export class RealtimeCategoriesService {
   }
 
   public unsubscribeFromRealtimeChanges(): void {
-    this.pb.collection('categories').unsubscribe('*');
+    this.pb.collection('categorias').unsubscribe('*');
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import PocketBase from 'pocketbase';
 import { Observable, from, tap, map, BehaviorSubject } from 'rxjs';
 import { GlobalService } from './global.service';
-import { UserInterface } from '../interface/user.interface';
+import { UserInterface } from '../interface/user.interface'; 
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthPocketbaseService {
     public global: GlobalService
    ) 
   { 
-    this.pb = new PocketBase('https://db.buckapi.com:8095');
+    this.pb = new PocketBase('https://db.buckapi.lat:8095');
   }
     generateRandomPassword(length: number = 8): string {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
